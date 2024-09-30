@@ -1,0 +1,54 @@
+CREATE DATABASE blog
+
+##########################################################################################################################################################
+
+CREATE TABLE users (
+    user_id INT GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(100) NOT NULL,
+    password VARCHAR(300) NOT NULL,
+    PRIMARY KEY(user_id)
+);
+
+INSERT INTO users(name, password) VALUES
+    ('admin', 'admin')
+;
+##########################################################################################################################################################
+
+CREATE TABLE blog (
+    blog_id INT GENERATED ALWAYS AS IDENTITY,
+    user_id INT,
+    title VARCHAR(200) NOT NULL,
+    author VARCHAR(200) NOT NULL,
+    url VARCHAR(300) NOT NULL,
+    likes INTEGER DEFAULT 0,
+    PRIMARY KEY(blog_id),
+    CONSTRAINT fk_user
+        FOREIGN KEY(user_id)
+            REFERENCES users(user_id)
+                ON DELETE CASCADE
+);
+
+INSERT INTO blog(user_id, title, author, url) VALUES
+    (1, 'bla bla bla', 'pentti', 'asd.com'),
+    (1, 'yeh yeh yeh', 'antti', 'bla.fi'),
+    (1, 'yap yap yap', 'emmi', 'jotai.io'),
+    (1, 'ding baby', 'karidus', 'youtube.com'),
+    (1, 'the thing', 'smith', 'movies4a.ai'),
+    (1, 'idk what to say', 'maria', 'website.fi'),
+    (1, 'fat nerd', 'moderator', 'reddit.com'),
+    (1, 'fullstack', 'jope', 'fullstack.com'),
+    (1, 'alien romulus', 'critical drinker', 'youtube.com'),
+    (1, 'aasdasdasd', 'spammer', 'spam.gov'),
+    (1, 'valheim wiki', 'fandom', 'valheim.fandom.com')
+;
+
+##########################################################################################################################################################
+
+SELECT users.name AS users, blog AS blog
+    FROM users, blog
+    WHERE blog.user_id = users.user_id
+;
+
+SELECT users.user_id AS user_id, users.name AS name
+    FROM users
+;

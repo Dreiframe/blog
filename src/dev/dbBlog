@@ -1,0 +1,24 @@
+CREATE DATABASE blog
+
+CREATE TABLE blog (
+    blog_id INT GENERATED ALWAYS AS IDENTITY, 
+    title VARCHAR(200) NOT NULL,
+    author VARCHAR(200) NOT NULL,
+    url VARCHAR(300) NOT NULL,
+    likes INTEGER DEFAULT 0,
+    PRIMARY KEY(blog_id)
+);
+
+INSERT INTO blog(title, author, url) VALUES
+    ('bla bla bla', 'pentti', 'asd.com'),
+    ('yeh yeh yeh', 'antti', 'bla.fi'),
+    ('yap yap yap', 'emmi', 'jotai.io'),
+    ('ding baby', 'karidus', 'youtube.com'),
+    ('the thing', 'smith', 'movies4a.ai'),
+    ('idk what to say', 'maria', 'website.fi'),
+    ('fat nerd', 'moderator', 'reddit.com'),
+    ('fullstack', 'jope', 'fullstack.com'),
+    ('alien romulus', 'critical drinker', 'youtube.com'),
+    ('aasdasdasd', 'spammer', 'spam.gov'),
+    ('valheim wiki', 'fandom', 'valheim.fandom.com')
+;
