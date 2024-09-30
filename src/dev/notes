@@ -1,1 +1,4 @@
 add .env to .gitignore later
+
+
+git push -f, fucks up commit history if not done correctly.
