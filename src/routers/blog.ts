@@ -1,5 +1,5 @@
-import { Request, Response, Router, NextFunction } from 'express';
-import { pool } from "../connection/blogPSQL";
+import { Request, Response, Router, NextFunction } from 'express'
+import { pool } from "../connection/blogPSQL"
 
 import Joi from 'joi'
 const blogSchema = Joi.object({

@@ -9,6 +9,9 @@ CREATE TABLE users (
     PRIMARY KEY(user_id)
 );
 
+ALTER TABLE users
+    ADD CONSTRAINT users_unq UNIQUE(name);
+
 INSERT INTO users(name, password) VALUES
     ('admin', 'admin')
 ;
