@@ -11,3 +11,5 @@ export const pool = new Pool({
     password: process.env.PASSWORD,
     port: parseInt(process.env.DB_PORT),
 });
+
+//https://node-postgres.com/features/pooling
