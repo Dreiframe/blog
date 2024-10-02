@@ -12,9 +12,10 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-    "title": "wtf is dis",
-    "author": "dude",
-    "url": "www.wtf.fi"
+    "user_id": 17,
+    "title": "test_title",
+    "author": "test_author",
+    "url": "www.test_address.fi"
 }
 
 ### POST FAIL

@@ -11,17 +11,72 @@ const blogSchema = Joi.object({
 })
 
 
+//this is a mess..
 const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
-    pool.query('select * from blog;',
+    type queryReturnType = {
+        user: string,
+        blog_id: number,
+        user_id: number,
+        title: string,
+        author: string,
+        url: string,
+        likes: number
+    }
+
+    interface responseObject {
+        [x: string]: Array<blogType>;
+    }
+
+    type blogType = {
+        blog_id: number,
+        user_id: number,
+        title: string,
+        author: string,
+        url: string,
+        likes: number
+    }
+    
+    pool.query(
+        'SELECT users.name AS user, blog.blog_id, blog.user_id, blog.title, blog.author, blog.url, blog.likes' +
+        '   FROM users, blog' +
+        '   WHERE blog.user_id = users.user_id;',
         (error, results) => {
             if (error){
                 return next(error)
             }
 
-            return res.status(200).json(results.rows)
+            const queryResults: Array<queryReturnType> = results.rows
+
+            const formattedResponse: responseObject = {}
+            const formattedResponseArray = []
+
+            //create json
+            queryResults.map(table => {
+                const blog = {
+                    blog_id: table.blog_id,
+                    user_id: table.user_id,
+                    title: table.title,
+                    author: table.author,
+                    url: table.url,
+                    likes: table.likes
+                }
+                if(formattedResponse[table.user]){
+                    formattedResponse[table.user].push(blog)
+                } else {
+                    formattedResponse[table.user] = [blog]
+                }
+            })
+
+            //format json to json array
+            Object.keys(formattedResponse).forEach((key, index) => {
+                formattedResponseArray.push({name: key, blogs:formattedResponse[key]})
+            })
+
+            return res.status(200).json(formattedResponseArray)
         }
     )
 }
+
 
 const getBlogById = async (getId: number, req: Request, res: Response, next: NextFunction) => {
     if (isNaN(getId)){

@@ -3,8 +3,8 @@ POST http://localhost:3003/api/users
 content-type: application/json
 
 {
-    "name": "test_user",
-    "password": "test_user_password"
+    "name": "test_user_rest",
+    "password": "test_user_password_rest"
 }
 
 ### POST FAIL

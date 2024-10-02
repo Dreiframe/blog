@@ -44,7 +44,7 @@ describe('user tests', () => {
     })
 })
 
-/*
+
 describe('blog tests', () => {
     test('GET /blogs', async () => {
         const res = await testRequest
@@ -52,9 +52,11 @@ describe('blog tests', () => {
             .expect(200)
             .expect('Content-Type', /application\/json/)
 
-        res.body.map(blog => {
-            assert.deepEqual(Object.keys(blog), [ 'blog_id', 'user_id', 'title', 'author', 'url', 'likes' ])
+        
+        res.body.forEach(blog => {
+            assert.deepEqual(Object.keys(blog), [ 'name', 'blogs' ])
         })
+        //
     })
 
     test('POST /blogs MALFORMED', async () => {
@@ -155,5 +157,3 @@ describe('blog tests', () => {
         assert.strictEqual(res.body.length >= 3, true)
     })
 })
-
-*/
