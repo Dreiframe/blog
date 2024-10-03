@@ -81,16 +81,6 @@ export const getUserById = async (user_id: number) => {
 }
 
 
-export const getTokenFrom = (request: Request) => {
-    const authorization = request.get('authorization')
-    if (authorization && authorization.startsWith('Bearer ')){
-        return authorization.replace('Bearer ', '')
-    }
-
-    return null
-}
-
-
 const getUserByName = async (username: string) => {
     const doesExist: dbUserType = await new Promise((resolve, reject) => {
         pool.query(

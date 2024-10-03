@@ -10,7 +10,7 @@ GET http://localhost:3003/api/blogs/author/test_author
 ### POST
 POST http://localhost:3003/api/blogs
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdF91c2VyX3Jlc3QiLCJ1c2VyX2lkIjoyLCJpYXQiOjE3Mjc5NDY0MDR9.sKX4DffTue5q97goomR014licPaslbzFuz9noltsMWg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdF91c2VyX3Jlc3QiLCJ1c2VyX2lkIjoyLCJpYXQiOjE3Mjc5NDg5MjUsImV4cCI6MTcyNzk1MjUyNX0.Jqkv8GD7GbIyBkc33Gxa0jhTLPXQgDhXIg0nQZ9IPoQ
 
 {
     "user_id": 2,

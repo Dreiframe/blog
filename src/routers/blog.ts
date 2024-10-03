@@ -1,7 +1,7 @@
 import { Request, Response, Router, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import { pool } from "../connection/blogPSQL"
-import { getTokenFrom, getUserById } from './users'
+import { getUserById } from './users'
 
 import Joi from 'joi'
 const blogSchema = Joi.object({
@@ -129,12 +129,10 @@ const postBlog = async (req: Request, res: Response, next: NextFunction) => {
     let decodedToken: jwt.UserIDJwtPayLoad
 
     try {
-        decodedToken = <jwt.UserIDJwtPayLoad>jwt.verify(getTokenFrom(req), process.env.SECRET)
+        decodedToken = <jwt.UserIDJwtPayLoad>jwt.verify(req.token, process.env.SECRET)
     } catch (error) {
         return next(error)
     }
-
-    console.log(decodedToken)
 
     const user = await getUserById(decodedToken.user_id)
 

@@ -1,6 +1,14 @@
 import express, { Express, json } from "express"
 import cors from 'cors'
 
+declare global{
+  namespace Express {
+    export interface Request {
+        token: string
+    }
+  }
+}
+
 const app: Express = express()
 app.use(json())
 app.use(cors())
@@ -9,6 +17,8 @@ app.use(cors())
 import morgan from 'morgan'
 app.use(morgan('tiny'))
 
+import { tokenExtractor } from "./utils/middleware"
+app.use(tokenExtractor)
 
 import { blogsRouter } from "./routers/blog"
 app.use('/api/blogs', blogsRouter)

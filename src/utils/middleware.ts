@@ -23,3 +23,12 @@ export const errorMiddleWare = (error: Error, req: Request, res: Response, next:
 
     next(error)
 }
+
+export const tokenExtractor = (req: Request, res: Response, next: NextFunction) => {
+    const authorization = req.get('authorization')
+    if (authorization && authorization.startsWith('Bearer ')){
+        req.token = authorization.replace('Bearer ', '')
+    }
+    
+    next()
+}
