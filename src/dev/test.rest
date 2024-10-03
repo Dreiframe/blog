@@ -10,9 +10,10 @@ GET http://localhost:3003/api/blogs/author/test_author
 ### POST
 POST http://localhost:3003/api/blogs
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdF91c2VyX3Jlc3QiLCJ1c2VyX2lkIjoyLCJpYXQiOjE3Mjc5NDY0MDR9.sKX4DffTue5q97goomR014licPaslbzFuz9noltsMWg
 
 {
-    "user_id": 17,
+    "user_id": 2,
     "title": "test_title",
     "author": "test_author",
     "url": "www.test_address.fi"

@@ -10,9 +10,13 @@ export const errorMiddleWare = (error: Error, req: Request, res: Response, next:
     if (error.name === 'error'){
         //pg error, probably db is down
         return res.status(500).json({"error":  error})
-    }
-
-    if (error.name === 'ValidationError'){
+    } else if (error.name === 'ValidationError'){
+        //Joi validation error
+        return res.status(400).json({"error": error.message})
+    } else if (error.name === 'JsonWebTokenError'){
+        //Joi validation error
+        return res.status(400).json({"error": error.message})
+    } else if (error.name === 'TokenExpiredError'){
         //Joi validation error
         return res.status(400).json({"error": error.message})
     }

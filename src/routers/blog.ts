@@ -1,5 +1,7 @@
 import { Request, Response, Router, NextFunction } from 'express'
+import jwt from 'jsonwebtoken'
 import { pool } from "../connection/blogPSQL"
+import { getTokenFrom, getUserById } from './users'
 
 import Joi from 'joi'
 const blogSchema = Joi.object({
@@ -10,6 +12,12 @@ const blogSchema = Joi.object({
   likes: Joi.number()
 })
 
+declare module 'jsonwebtoken' {
+    export interface UserIDJwtPayLoad extends jwt.JwtPayload{
+        name: string,
+        user_id: number
+    }
+}
 
 //this is a mess..
 const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
@@ -115,9 +123,20 @@ const getBlogByAuthor = async (getAuthor: string, req: Request, res: Response, n
 }
 
 
-// USER AUTHENTICATION REQUIREMENTS MISSING ! TODO !
 const postBlog = async (req: Request, res: Response, next: NextFunction) => {
     const blog = blogSchema.validate(req.body)
+
+    let decodedToken: jwt.UserIDJwtPayLoad
+
+    try {
+        decodedToken = <jwt.UserIDJwtPayLoad>jwt.verify(getTokenFrom(req), process.env.SECRET)
+    } catch (error) {
+        return next(error)
+    }
+
+    console.log(decodedToken)
+
+    const user = await getUserById(decodedToken.user_id)
 
     if (blog.error) {
       return next(blog.error)
@@ -127,7 +146,7 @@ const postBlog = async (req: Request, res: Response, next: NextFunction) => {
         'INSERT INTO blog(user_id, title, author, url) ' +
         'VALUES ($1, $2, $3, $4) ' +
         'RETURNING blog_id',
-        [blog.value.user_id, blog.value.title, blog.value.author, blog.value.url],
+        [user.user_id, blog.value.title, blog.value.author, blog.value.url],
         (error, results) => {
             if (error) {
                 return next(error)
