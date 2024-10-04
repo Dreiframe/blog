@@ -32,3 +32,30 @@ export const tokenExtractor = (req: Request, res: Response, next: NextFunction) 
     
     next()
 }
+
+//###############################################################################
+//userExtractor makes the codebase needlesly complicated...
+//or? but probably delete later.
+
+declare module 'express'{
+    interface Request{
+        user: dbUserType
+    }
+}
+
+import { getUserById, dbUserType } from '../routers/users'
+
+export const userExtractor = async (req: Request, res: Response, next: NextFunction) => {
+    type bodyType = {
+        user_id: number,
+    }
+
+    const blog: bodyType = req.body
+
+    const user: dbUserType = await getUserById(blog.user_id)
+
+    req.user = user
+
+    next()
+}
+//###############################################################################

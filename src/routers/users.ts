@@ -9,7 +9,7 @@ const userSchema = Joi.object({
   password: Joi.string().min(5).max(300)
 })
 
-type dbUserType = {
+export type dbUserType = {
     user_id: number,
     name: string,
     password: string

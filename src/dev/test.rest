@@ -10,7 +10,7 @@ GET http://localhost:3003/api/blogs/author/test_author
 ### POST
 POST http://localhost:3003/api/blogs
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdF91c2VyX3Jlc3QiLCJ1c2VyX2lkIjoyLCJpYXQiOjE3Mjc5NDg5MjUsImV4cCI6MTcyNzk1MjUyNX0.Jqkv8GD7GbIyBkc33Gxa0jhTLPXQgDhXIg0nQZ9IPoQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdF91c2VyX3Jlc3QiLCJ1c2VyX2lkIjoyLCJpYXQiOjE3MjgwMzIyMjYsImV4cCI6MTcyODAzNTgyNn0.lLNhPoj3NbhSrngk87UX9YQ0zFNBo9He7mncojKSWtM
 
 {
     "user_id": 2,
@@ -30,11 +30,7 @@ content-type: application/json
     "THINGY": 123123
 }
 
-### DELETE id 4
-DELETE http://localhost:3003/api/blogs/4
-
-### DELETE blog by author test_author
-DELETE http://localhost:3003/api/blogs/author/test_author
-
-### DELETE blog by author dude
-DELETE http://localhost:3003/api/blogs/author/dude
+### DELETE id
+DELETE http://localhost:3003/api/blogs/36
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdF91c2VyX3Jlc3QiLCJ1c2VyX2lkIjoyLCJpYXQiOjE3MjgwMzIyMjYsImV4cCI6MTcyODAzNTgyNn0.lLNhPoj3NbhSrngk87UX9YQ0zFNBo9He7mncojKSWtM

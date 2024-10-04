@@ -4,7 +4,7 @@ import { pool } from "../connection/blogPSQL"
 import { getUserById } from './users'
 
 import Joi from 'joi'
-const blogSchema = Joi.object({
+export const blogSchema = Joi.object({
   user_id: Joi.number().required(),
   title: Joi.string().min(2).max(200).required(),
   author: Joi.string().min(2).max(200).required(),
@@ -134,6 +134,9 @@ const postBlog = async (req: Request, res: Response, next: NextFunction) => {
         return next(error)
     }
 
+    //middleware userExtractor needs to work with tokenextractor and other stuff
+    //using middleware for user extraction makes things unnecesarily complicated
+    //const user = req.user
     const user = await getUserById(decodedToken.user_id)
 
     if (blog.error) {
@@ -155,33 +158,38 @@ const postBlog = async (req: Request, res: Response, next: NextFunction) => {
     )
 }
 
-// USER AUTHENTICATION REQUIREMENTS MISSING ! TODO !
+
 const deleteBlogById = async (deleteId: number, req: Request, res: Response, next: NextFunction) => {
     if (isNaN(deleteId)){
         return res.status(400).json({"error": "id param was NaN"})
     }
 
-    pool.query(`delete from blog where blog_id=${deleteId}`,
-            (error, results) => {
-                if (error){
-                    return next(error)
-                }
+    let decodedToken: jwt.UserIDJwtPayLoad
+    try {
+        decodedToken = <jwt.UserIDJwtPayLoad>jwt.verify(req.token, process.env.SECRET)
+    } catch (error) {
+        return next(error)
+    }
 
-                return res.status(200).json(results.rows[0])
+    const user = await getUserById(decodedToken.user_id)
+
+    pool.query(
+        'DELETE FROM blog WHERE blog_id=$1 AND user_id=$2',
+        [deleteId, user.user_id],
+        (error, results) => {
+            if (error){
+                return next(error)
             }
-    )
-}
 
-// USER AUTHENTICATION REQUIREMENTS MISSING ! TODO !
-const deleteBlogsByAuthor = async (deleteAuthor: string, req: Request, res: Response, next: NextFunction) => {
-    pool.query(`delete from blog where blog.author='${deleteAuthor}' returning *`,
-            (error, results) => {
-                if (error){
-                    return next(error)
-                }
 
-                return res.status(200).json(results.rows)
+            //because db doesnt return a reason why something was not done its hard make a good response
+            //it could be possible if blog id exists or not but its another query just for response message
+            if (results.rowCount === 1){
+                res.status(200).json({"message": `blog with id=${deleteId} deleted!`})
+            } else {
+                res.status(500).json({"message": "Wrong id, user auth error, or db error... good luck"})
             }
+        }
     )
 }
 
@@ -209,9 +217,4 @@ blogsRouter.delete('/:id', (req: Request, res: Response, next: NextFunction) => 
 blogsRouter.get('/author/:author', (req: Request, res: Response, next: NextFunction) => {
     const getAuthor = req.params.author
     getBlogByAuthor(getAuthor, req, res, next)
-})
-
-blogsRouter.delete('/author/:author', (req: Request, res: Response, next: NextFunction) => {
-    const deleteAuthor = req.params.author
-    deleteBlogsByAuthor(deleteAuthor, req, res, next)
 })

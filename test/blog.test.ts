@@ -133,6 +133,7 @@ if(true){
         test('DELETE /blog/:id', async () => {
             await testRequest
                 .delete(`/api/blogs/${createdBlogId}`)
+                .set('Authorization', `Bearer ${userToken}`)
                 .expect('Content-Type', /json/)
                 .expect(200)
         })
@@ -172,15 +173,6 @@ if(true){
                 .get('/api/blogs/author/test_author')
                 .expect('Content-Type', /json/)
                 .expect(200)
-    
-            assert.strictEqual(res.body.length >= 3, true)
-        })
-    
-        test('DELETE /blog/author/author', async () => {
-            const res = await testRequest
-                .delete('/api/blogs/author/test_author')
-                .expect('Content-Type', /json/)
-                .expect(200)  
     
             assert.strictEqual(res.body.length >= 3, true)
         })
