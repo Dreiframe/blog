@@ -114,8 +114,8 @@ if(true){
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .then(res => {
-                    createdBlogId = res.body
-                    console.log('created blog id:', res.body)
+                    createdBlogId = res.body.blog_id
+                    console.log('created blog: ', res.body)
                 })
         })
     

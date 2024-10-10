@@ -146,14 +146,14 @@ const postBlog = async (req: Request, res: Response, next: NextFunction) => {
     pool.query(
         'INSERT INTO blog(user_id, title, author, url) ' +
         'VALUES ($1, $2, $3, $4) ' +
-        'RETURNING blog_id',
+        'RETURNING blog_id, user_id, title, author, url, likes',
         [user.user_id, blog.value.title, blog.value.author, blog.value.url],
         (error, results) => {
             if (error) {
                 return next(error)
             }
 
-            return res.status(200).json(results.rows[0].blog_id)
+            return res.status(200).json(results.rows[0])
         }
     )
 }
