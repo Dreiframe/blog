@@ -84,7 +84,6 @@ if(true){
     
         test('POST /blogs MALFORMED', async () => {
             const blog = {
-                user_id: 1,
                 title: 'test_title',
                 author: 'test_author',
                 url: 'test_url.com',
@@ -103,7 +102,6 @@ if(true){
     
         test('POST /blogs', async () => {
             const blog = {
-                user_id: 1,
                 title: 'test_title',
                 author: 'test_author',
                 url: 'test_url.com'
@@ -140,7 +138,6 @@ if(true){
     
         test('POST /blogs x 3 for author tests..', async () => {
             const blog = {
-                user_id: 1,
                 title: 'test_title',
                 author: 'test_author',
                 url: 'test_url.com'

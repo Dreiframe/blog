@@ -5,7 +5,7 @@ import { getUserById } from './users'
 
 import Joi from 'joi'
 export const blogSchema = Joi.object({
-  user_id: Joi.number().required(),
+  //user_id: Joi.number().required(),
   title: Joi.string().min(2).max(200).required(),
   author: Joi.string().min(2).max(200).required(),
   url: Joi.string().min(8).max(300).required(),
