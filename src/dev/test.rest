@@ -7,6 +7,9 @@ GET http://localhost:3003/api/blogs/1
 ### GET author test_author blogs
 GET http://localhost:3003/api/blogs/author/test_author
 
+### like id 51
+POST http://localhost:3003/api/blogs/like/51
+
 ### POST
 POST http://localhost:3003/api/blogs
 content-type: application/json

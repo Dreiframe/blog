@@ -193,6 +193,27 @@ const deleteBlogById = async (deleteId: number, req: Request, res: Response, nex
     )
 }
 
+const likeById = async (likeId: number, req: Request, res: Response, next: NextFunction) => {
+    if (isNaN(likeId)){
+        return res.status(400).json({"error": "id param was NaN"})
+    }
+    
+    pool.query(
+        'UPDATE blog ' +
+        'SET likes = likes + 1 ' +
+        'WHERE blog_id = $1 ' +
+        'RETURNING likes',
+        [likeId],
+        (error, results) => {
+            if (error){
+                return next(error)
+            }
+
+            res.status(200).json({"message": `blog with id=${likeId} liked!`, "value": results.rows[0]})
+        }
+    )
+}
+
 
 export const blogsRouter = Router()
 
@@ -217,4 +238,9 @@ blogsRouter.delete('/:id', (req: Request, res: Response, next: NextFunction) => 
 blogsRouter.get('/author/:author', (req: Request, res: Response, next: NextFunction) => {
     const getAuthor = req.params.author
     getBlogByAuthor(getAuthor, req, res, next)
+})
+
+blogsRouter.post('/like/:id', (req: Request, res: Response, next: NextFunction) => {
+    const likeId = parseInt(req.params.id)
+    likeById(likeId, req, res, next)
 })

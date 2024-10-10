@@ -60,3 +60,7 @@ SELECT users.name AS users, blog.blog_id, blog.user_id
 SELECT users.user_id AS user_id, users.name AS name
     FROM users
 ;
+
+UPDATE blog
+    SET likes = likes +1
+    WHERE blog_id = 51;

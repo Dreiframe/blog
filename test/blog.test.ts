@@ -4,6 +4,7 @@ import supertest from 'supertest'
 import { app } from '../src/index'
 
 import { getUsers, deleteUserByName } from './userTestHelper.js'
+import Test from 'supertest/lib/test'
 
 const testRequest = supertest(app)
 
@@ -126,6 +127,16 @@ if(true){
                 .expect('Content-Type', /application\/json/)
     
             assert.deepEqual(Object.keys(res.body), [ 'blog_id', 'user_id', 'title', 'author', 'url', 'likes' ])
+        })
+
+        test('POST /blog/like/:id LIKE', async () => {
+            const res = await testRequest
+                .post(`/api/blogs/like/${createdBlogId}`)
+                .expect(200)
+                .expect('Content-Type', /application\/json/)
+
+            //console.log("############ LIKE:", res.body.value);
+            assert.deepEqual(res.body.value, { likes: 1 })
         })
     
         test('DELETE /blog/:id', async () => {
