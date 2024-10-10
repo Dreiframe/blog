@@ -153,7 +153,7 @@ const postBlog = async (req: Request, res: Response, next: NextFunction) => {
                 return next(error)
             }
 
-            return res.status(200).json(results.rows[0])
+            return res.status(200).json({name: decodedToken.name,blog: results.rows[0]})
         }
     )
 }
