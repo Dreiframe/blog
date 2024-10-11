@@ -47,7 +47,8 @@ const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
     pool.query(
         'SELECT users.name AS user, blog.blog_id, blog.user_id, blog.title, blog.author, blog.url, blog.likes' +
         '   FROM users, blog' +
-        '   WHERE blog.user_id = users.user_id;',
+        '   WHERE blog.user_id = users.user_id ' +
+        '   ORDER BY blog.likes DESC;',
         (error, results) => {
             if (error){
                 return next(error)
