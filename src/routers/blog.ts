@@ -43,7 +43,7 @@ const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
         url: string,
         likes: number
     }
-    
+
     pool.query(
         'SELECT users.name AS user, blog.blog_id, blog.user_id, blog.title, blog.author, blog.url, blog.likes' +
         '   FROM users, blog' +
@@ -76,7 +76,10 @@ const getBlogs = async (req: Request, res: Response, next: NextFunction) => {
                 }
             })
 
-            //format json to json array
+            if(req.query.nested === 'false'){
+                return res.status(200).json(queryResults)
+            }
+
             Object.keys(formattedResponse).forEach((key, index) => {
                 formattedResponseArray.push({name: key, blogs:formattedResponse[key]})
             })

@@ -137,11 +137,14 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
     const token = jwt.sign(
         userForToken,
         process.env.SECRET,
-        { expiresIn: 60*60 }
+        { expiresIn: 60*60 },
     )
 
+    /* it might be a good idea to respond with token lifespan
     const testing = jwt.verify(token, process.env.SECRET)
     console.log(testing)
+    console.log(Math.floor(Date.now() / 1000))
+    */
     
     res.status(200).json({ token, name: dbUser.name })
 }
